@@ -10,8 +10,16 @@ const (
 )
 
 fn main() {
-	ip := os.args[1]
-	port := os.args[2].int()
+	ip := os.args[1] or {
+		term.clear()
+		eprintln("Missing args! ./ping <ip> <port>")
+		return
+	}
+	port := os.args[2].int() or {
+		term.clear()
+		eprintln("Missing args! | ./ping <ip> <port>")
+		return
+	}
 	term.clear()
 	print("${white}Probing ${ip} On Port ${port}\n\n")
 	for {
