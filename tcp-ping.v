@@ -15,11 +15,11 @@ fn main() {
 		eprintln("Missing args! ./ping <ip> <port>")
 		return
 	}
-	port := os.args[2].int() //or {
-		//term.clear()
-		//eprintln("Missing args! | ./ping <ip> <port>")
-		//return
-	//}
+	port := os.args[2] or {
+		term.clear()
+		eprintln("Missing args! | ./ping <ip> <port>")
+		return
+	}
 	term.clear()
 	print("${white}Probing ${ip} On Port ${port}\n\n")
 	for {
