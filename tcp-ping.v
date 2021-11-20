@@ -11,25 +11,36 @@ const (
 
 fn main() {
 	ip := os.args[1] or {
-		term.clear()
-		eprintln("Missing args! ./ping <ip> <port>")
+		eprintln("Invalid args! | ./ping <ip> <port> <amount>")
 		return
 	}
 	port := os.args[2] or {
-		term.clear()
-		eprintln("Missing args! | ./ping <ip> <port>")
+		eprintln("Invalid args! | ./ping <ip> <port> <amount>")
 		return
 	}
+	requests := os.args[3] or {
+		eprintln("Invalid args! | ./ping <ip> <port> <amount>")
+		return
+	}
+	mut counter := 0
+	mut failed := 0
 	term.clear()
-	print("${white}Probing ${ip} On Port ${port}\n\n")
+	print("${white}Probing ${ip} On Port ${port} With ${requests} Requests\nhttps://instagram.com/exo.phobian\n\n")
 	for {
 		for color in colors {
+			counter += 1
 			net.dial_tcp("${ip}:${port}") or {
 			eprintln("${red}Connection Timed Out On ${ip}:${port}${white}")
-			continue
+				time.sleep(1 * time.second)
+				failed += 1
+				continue
 			}
-			print("${white}[${color}Connected To ${ip} On Port ${port}${white}]\n")
+			print("${white}[${color}Connected To ${white}${ip}${color} On Port ${white}${port} ${color}Protocol ${white}TCP ${color}Count ${white}${counter}${color} Online${white}]\n")
 			time.sleep(1 * time.second)
+			if counter == requests.int() {
+				print("Stopping test | ${counter} requests sent, ${failed} failed to connect!\n")
+				return
+			}
 		}
 	}
 }
